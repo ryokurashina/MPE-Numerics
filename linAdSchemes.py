@@ -3,6 +3,7 @@ Contains various numerical schemes for the linear advection equation.
 
 List of numerical schemes:
 * FTCS
+* CTCS
 """""
 
 # Import packages and libraries

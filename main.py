@@ -39,9 +39,11 @@ def main():
     phi1 = FTCS(phi_init,n_steps,c)
     # CTCS
     phi2 = CTCS(phi_init,n_steps,c)
-
+    print(len(phi1))
+    print(len(phi2))
+    plt.plot(x,phi_init)
     plt.plot(x,phi1)
-    plt.plot(x,phi2)
-    # plt.plot(x,phi_exact)
+    # plt.plot(x,phi2)
+    plt.plot(x,phi_exact)
     plt.show()
 main()
