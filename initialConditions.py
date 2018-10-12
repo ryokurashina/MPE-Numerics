@@ -26,3 +26,12 @@ def squareWave(x,alpha,beta):
         phi[j] = max((min(beta, xe) - max(alpha, xw))/dx, 0)
 
     return phi
+
+def cosBell(x, alpha=0, beta=0.5):
+    "Function defining a cosine bell as a function of position, x"
+    "between alpha and beta with default parameters 0, 0.5"
+### The lambda keyword lets you define a function in one line       ###
+    width = beta - alpha
+    bell = lambda x: 0.5*(1 - np.cos(2*np.pi*(x-alpha)/width))
+### chooses bell(x) where condition is true, else chooses zeros     ###
+    return np.where((x<beta) & (x>=alpha), bell(x), 0.)
