@@ -17,6 +17,7 @@ def main():
     # Initial condition
     # phi_init = squareWave(x, a, b)
     phi_init = cosBell(x)
+    h_init = cosBell(x, alpha=.25, beta=.75)
     # Initialise timestep, grid-size and advection velocity
     dx = 1/(N-1)
     dt = 1e-3
@@ -38,15 +39,19 @@ def main():
     """""
 
     # FTCS
-    # phi1 = FTCS(phi_init, n_steps, c)
+    # phi = FTCS(phi_init, n_steps, c)
     # CTCS
-    phi2 = CTCS(phi_init, n_steps, c)
+    # phi = CTCS(phi_init, n_steps, c)
     # BTCS
-    # phi3 = BTCS(phi_init, n_steps, c)
-    plt.plot(x,phi_init)
-    plt.plot(x,phi2)
-    # plt.plot(x,phi2)
-    plt.plot(x,phi_exact)
+    # phi = BTCS(phi_init, n_steps, c)
+
+    # SW
+    phi, h = UFW(phi_init, h_init, 100, 0.5)
+    # plt.plot(x,phi_init)
+    plt.plot(x,phi)
+    plt.plot(x,h)
+
+    # plt.plot(x,phi_exact)
     plt.show()
 
 main()
