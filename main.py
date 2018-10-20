@@ -12,11 +12,11 @@ def main():
     # Set resolution
     N = 1001
     x = np.linspace(0, 1, N)
-    a = 0
-    b = .5
+    a = .25
+    b = .75
     # Initial condition
     # phi_init = squareWave(x, a, b)
-    phi_init = cosBell(x)
+    phi_init = cosBell(x, alpha=a, beta=b)
     h_init = cosBell(x, alpha=.25, beta=.75)
     # Initialise timestep, grid-size and advection velocity
     dx = 1/(N-1)
@@ -41,17 +41,17 @@ def main():
     # FTCS
     # phi = FTCS(phi_init, n_steps, c)
     # CTCS
-    # phi = CTCS(phi_init, n_steps, c)
+    phi = CTCS(phi_init, n_steps, c)
     # BTCS
     # phi = BTCS(phi_init, n_steps, c)
 
     # SW
-    phi, h = UFW(phi_init, h_init, 100, 0.5)
-    # plt.plot(x,phi_init)
+    # phi, h = UFW(phi_init, h_init, 100, 0.5)
+    plt.plot(x,phi_init)
     plt.plot(x,phi)
-    plt.plot(x,h)
+    # plt.plot(x,h)
 
-    # plt.plot(x,phi_exact)
+    plt.plot(x,phi_exact)
     plt.show()
 
 main()
