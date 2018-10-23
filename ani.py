@@ -16,13 +16,15 @@ N = 1001
 x = np.linspace(0, 1, N)
 a = 0
 b = .5
+g = 9.81
+H = 1
 # Initial condition
-phi_init = cosBell(x,alpha=0.,beta=1.)
+phi_init = np.sqrt(g/H)*cosBell(x,alpha=0.,beta=1.)
 h_init = cosBell(x, alpha=0., beta=1.)
 # Initialise timestep, grid-size and advection velocity
 dx = 1/(N-1)
 dt = 1e-3
-n_steps = 200
+n_steps = 250
 u = .1
 T = n_steps*dt
 
