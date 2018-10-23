@@ -1,3 +1,9 @@
+"""""
+Animation code to see how numerical scheme develops in real time. This isn't
+so good for post-processing or analysis of results but more as a visual aid for
+the user
+"""""
+
 import os
 import numpy as np
 import numpy.random as rand
@@ -29,11 +35,9 @@ plt.pause(5)
 phi_old = phi_init
 h_old = h_init
 
+# Loop through 1 time-step at a time and plot for animation
 for i in range(n_steps):
-    phi_new, h_new = UFW(phi_old, h_old, 1, 0.5)
-    print(i)
-    print(min(phi_new))
-
+    phi_new, h_new = USW(phi_old, h_old, 1, 0.5)
     plt.title('Animation')
     plt.plot(x,phi_new,label='u')
     plt.plot(x,h_new,label='h')
