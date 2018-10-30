@@ -1,0 +1,47 @@
+Great start - good code.
+
+Nice animation (if I was marking this code I would say, avoid global variables).
+
+Rename file main.py to a more descriptive name.
+
+Good use of git with good commit messages
+
+Functions should have docstrings rather than comments before them. 
+Follow the guidelines at 
+https://www.dropbox.com/s/yba7pj7woyvv7hs/goodCode.pdf?dl=1
+
+It looks as if you are focussing on the shallow water equations so I won't debug your implementation of CTCS for the linear advectionm equation and in fact I won't look further at your linear advection code. 
+
+Delete and remove old code and old files from the repository that is not needed to create the results that you will put into the report. The point of using a version control system such as git is that you can always get back old code.
+
+Do not leave commented out code in your code
+
+Comments should describe the boundary conditions
+
+When I run
+python3 main.py 
+
+I get the warning messages:
+
+initialConditions.py:35: RuntimeWarning: divide by zero encountered in true_divide
+  bell = lambda x: 0.5*(1 - np.cos(2*np.pi*(x-alpha)/width))
+initialConditions.py:35: RuntimeWarning: invalid value encountered in true_divide
+  bell = lambda x: 0.5*(1 - np.cos(2*np.pi*(x-alpha)/width))
+initialConditions.py:35: RuntimeWarning: invalid value encountered in cos
+  bell = lambda x: 0.5*(1 - np.cos(2*np.pi*(x-alpha)/width))
+
+You should sort these out. Ask for help in class or on Slack if needed.
+
+You should get your main code to save all results in a pdf file rather than re-running with different bits commented out. 
+
+Function USW is defined in file linSdSchemes.py. This is not logical.
+
+phi is not a good variable name for velocity. u, v or w are more normal.
+
+You need a less well resolved test case to see the problems with the unstaggered scheme. 
+
+Are you going to implement a staggered scheme to compare with the unstaggered scheme?
+
+Are you going to compare with the analytic solution?
+
+
