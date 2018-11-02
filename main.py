@@ -44,23 +44,23 @@ def main():
     """""
 
     # FTCS
-    # phi1 = FTCS(phi_init, n_steps, c)
+    phi1 = FTCS(phi_init, n_steps, c)
 
     # CTCS
-    # phi2 = CTCS(phi_init, n_steps, c)
+    phi2 = CTCS(phi_init, n_steps, c)
 
     # BTCS
     # phi3 = BTCS(phi_init, n_steps, c)
 
     # SW
-    phi, h = USW(phi_init, h_init, n_steps, c)
+    # phi, h = USW(phi_init, h_init, n_steps, c)
 
     # Plot results
-    # plt.plot(x, phi_init, label="Initial")
-    # plt.plot(x, phi1, label="FTCS")
-    # plt.plot(x, phi2, label="CTCS")
-    plt.plot(x,phi, label="u")
-    plt.plot(x,h, label="h")
+    plt.plot(x, phi_init, label="Initial")
+    plt.plot(x, phi1, label="FTCS")
+    plt.plot(x, phi2, label="CTCS")
+    # plt.plot(x,phi, label="u")
+    # plt.plot(x,h, label="h")
     # plt.plot(x,phi_exact, label="Exact")
     plt.legend()
     plt.show()
