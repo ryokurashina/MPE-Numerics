@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 from initialConditions import *
 from linAdSchemes import *
 from sWSchemes import *
+from postProcess import *
 
 N = 251
 x_ = np.linspace(0, 1, N+1)
@@ -32,16 +33,14 @@ f2 = np.zeros(N)
 
 # Initialise timestep, grid-size and advection velocity
 dx = 1/(N-1)
-dt = 1e-4
+dt = 1e-3
 n_steps = 500
-
-T = n_steps*dt
 
 # Courant number
 c = np.sqrt(g*H)*dt/dx
 print("Courant Number (c): %f" %(c))
 
-f1, f2 = source_f(x, 0, k, c)
+# f1, f2 = source_f(x, 0, k, c)
 
 plt.ion()
 plt.pause(1)
@@ -54,10 +53,10 @@ t = 0
 # Loop through 1 time-step at a time and plot for animation
 for i in range(n_steps):
     f1, f2 = source_f(x, t, k, c)
-    u_new, h_new = USW(u_old, h_old, f1, f2, dt, 1, 0.5)
+    u_new, h_new = USW(u_old, h_old, f1, f2, dt, 1, c)
     u_exact = exact_sol(k ,x, t)
     plt.title('Animation')
-    plt.plot(x,u_new,label='u')
+    plt.plot(x,h_new,label='u')
     # plt.plot(x,h_new,label='h')
     plt.plot(x,u_exact,label='u_exact')
     plt.xlabel('x')
@@ -67,5 +66,6 @@ for i in range(n_steps):
     plt.clf()
     u_old = u_new.copy()
     h_old = h_new.copy()
+    # Update time
     t = (i+1)*dt
 plt.ioff()

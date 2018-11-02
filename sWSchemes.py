@@ -7,6 +7,7 @@ List of numerical schemes:
 
 import numpy as np
 import matplotlib.pyplot as plt
+from postProcess import *
 from math import pi
 
 def exact_sol(k,x,t):
@@ -18,8 +19,8 @@ def source_f(x, t, k, c):
     # Gravitational acceleration
     g = 9.81
     H = c**2/g
-    f1 = 2*k*pi*g*np.cos(2*k*pi*x)*np.sin(2*pi*t)-2*pi*np.sin(2*k*pi*x)*np.cos(2*pi*t)
-    f2 = 2*k*pi*H*np.cos(2*k*pi*x)*np.sin(2*pi*t)-2*pi*np.sin(2*k*pi*x)*np.cos(2*pi*t)
+    f1 = 2*k*pi*g*np.cos(2*k*pi*x)*np.sin(2*pi*t)-2*pi*np.sin(2*k*pi*x)*np.sin(2*pi*t)
+    f2 = 2*k*pi*H*np.cos(2*k*pi*x)*np.sin(2*pi*t)-2*pi*np.sin(2*k*pi*x)*np.sin(2*pi*t)
     return f1, f2
 
 def USW(u, h, f1, f2, dt, ntime, c):
@@ -36,6 +37,7 @@ def USW(u, h, f1, f2, dt, ntime, c):
     for i in range(ntime):
         u_new = u_old-c/2*np.sqrt(g/H)*(np.roll(h_old,1)-np.roll(h_old,-1))+f1*dt
         h_new = h_old-c/2*np.sqrt(H/g)*(np.roll(u_new,1)-np.roll(u_new,-1))+f2*dt
+        print(L2_error(h_old,h_new))
         u_old = u_new.copy()
         h_old = h_new.copy()
-    return u_new, h
+    return u_new, h_new
