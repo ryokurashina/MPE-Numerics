@@ -32,6 +32,7 @@ def cosBell(x, alpha=0, beta=0.5):
     "between alpha and beta with default parameters 0, 0.5"
 ### The lambda keyword lets you define a function in one line       ###
     width = beta - alpha
+    print(width)
     bell = lambda x: 0.5*(1 - np.cos(2*np.pi*(x-alpha)/width))
 ### chooses bell(x) where condition is true, else chooses zeros     ###
     return np.where((x<beta) & (x>=alpha), bell(x), 0.)
