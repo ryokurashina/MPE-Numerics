@@ -14,33 +14,29 @@ from linAdSchemes import *
 from sWSchemes import *
 from postProcess import *
 
-N = 251
+# Parameters
+N = 64
 x_ = np.linspace(0, 1, N+1)
 x = x_[0:N]
 g = 9.81
 H = 1
-# Initial condition
-# u_init = np.sqrt(g/H)*cosBell(x,alpha=0.,beta=1.)
-# u_init = np.zeros(N)
-# k = 2
-# h_init = np.sin(k*2*pi*x)
-k = 2
-u_init = exact_sol(k,x,0)
-h_init = exact_sol(k,x,0)
-
-f1 = np.zeros(N)
-f2 = np.zeros(N)
-
-# Initialise timestep, grid-size and advection velocity
 dx = 1/(N-1)
 dt = 1e-3
-n_steps = 500
+n_steps = 100
+
+# Initial condition
+k = 4
+# u_init = exact_sol(x, 0, k)
+# h_init = exact_sol(x, 0, k)
+# u_init = np.zeros_like(x)
+# h_init = np.array([(-1)**i for i in range(len(u_init))])
+t = 0
+u_init = -np.sqrt(g/H)*np.cos(2*pi*k*x)
+h_init = np.cos(2*pi*k*x)
 
 # Courant number
 c = np.sqrt(g*H)*dt/dx
 print("Courant Number (c): %f" %(c))
-
-# f1, f2 = source_f(x, 0, k, c)
 
 plt.ion()
 plt.pause(1)
@@ -52,17 +48,22 @@ t = 0
 
 # Loop through 1 time-step at a time and plot for animation
 for i in range(n_steps):
-    f1, f2 = source_f(x, t, k, c)
-    u_new, h_new = USW(u_old, h_old, f1, f2, dt, 1, c)
-    u_exact = exact_sol(k ,x, t)
+    # Update f1 and f2
+    # f1, f2 = source_f(x, t, k, H)
+    # Compute the solution for one time-step
+    u_new, h_new = SSW(u_old, h_old, 1, c, H)
+    u_exact, h_exact = trav_wave(x, t, k, H, 1)
+    # Plot results
     plt.title('Animation')
-    plt.plot(x,h_new,label='u')
-    # plt.plot(x,h_new,label='h')
+    plt.plot(x,h_new,label='h')
+    plt.plot(x,u_new,label='u')
+    plt.plot(x,h_exact,label='h_exact')
     plt.plot(x,u_exact,label='u_exact')
+    # plt.plot(x,u_exact,label='u_exact')
     plt.xlabel('x')
     plt.legend()
     plt.draw()
-    plt.pause(0.2)
+    plt.pause(1)
     plt.clf()
     u_old = u_new.copy()
     h_old = h_new.copy()
