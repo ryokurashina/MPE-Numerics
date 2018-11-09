@@ -22,14 +22,10 @@ g = 9.81
 H = 1
 dx = 1/(N-1)
 dt = 1e-3
-n_steps = 100
+n_steps = 200
 
 # Initial condition
 k = 4
-# u_init = exact_sol(x, 0, k)
-# h_init = exact_sol(x, 0, k)
-# u_init = np.zeros_like(x)
-# h_init = np.array([(-1)**i for i in range(len(u_init))])
 t = 0
 u_init = -np.sqrt(g/H)*np.cos(2*pi*k*x)
 h_init = np.cos(2*pi*k*x)
@@ -49,7 +45,6 @@ t = 0
 # Loop through 1 time-step at a time and plot for animation
 for i in range(n_steps):
     # Update f1 and f2
-    # f1, f2 = source_f(x, t, k, H)
     # Compute the solution for one time-step
     u_new, h_new = SSW(u_old, h_old, 1, c, H)
     u_exact, h_exact = trav_wave(x, t, k, H, 1)
@@ -63,7 +58,7 @@ for i in range(n_steps):
     plt.xlabel('x')
     plt.legend()
     plt.draw()
-    plt.pause(1)
+    plt.pause(0.1)
     plt.clf()
     u_old = u_new.copy()
     h_old = h_new.copy()

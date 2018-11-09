@@ -40,11 +40,6 @@ def USW(u, h, ntime, c, H):
         h_old = h_new.copy()
     return u_new, h_new
 
-# Linear interpolator for two arrays, takes a left and right array to calculate
-# middle value.
-def lin_interp(l, r):
-    m = 0.5*(l+r)
-    return m
 
 def SSW(u, h, ntime, c, H):
     # Gravitational aceleration
@@ -58,8 +53,8 @@ def SSW(u, h, ntime, c, H):
     # Stagger u to the right
     u_stag_old = 0.5*(u_old+np.roll(u_old, 1))
     for i in range(ntime):
-        u_stag_new = u_stag_old-c/2*np.sqrt(g/H)*(np.roll(h_old,1)-np.roll(h_old,-1))
-        h_new = h_old-c/2*np.sqrt(H/g)*(np.roll(u_stag_new,1)-np.roll(u_stag_new,-1))
+        u_stag_new = u_stag_old-c/2*np.sqrt(g/H)*(np.roll(h_old,1)-h_old)
+        h_new = h_old-c/2*np.sqrt(H/g)*(u_stag_new-np.roll(u_stag_new,-1))
         u_stag_old = u_stag_new.copy()
         h_old = h_new.copy()
     # Stagger u back to the left again
