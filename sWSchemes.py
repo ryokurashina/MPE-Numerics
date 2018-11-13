@@ -15,7 +15,7 @@ from scipy.interpolate import interp1d
 def trav_wave(x, t, k, H, direction):
     g = 9.81
     t_vec = t*np.ones_like(x)
-    # Take left travelling wave if 0
+    # Take left-travelling wave if 0
     if direction == 0:
         u = np.sqrt(g/H)*np.cos(2*pi*k*(x+np.sqrt(g*H)*t))
         h = np.cos(2*pi*k*(x+np.sqrt(g*H)*t))
@@ -53,8 +53,8 @@ def SSW(u, h, ntime, c, H):
     # Stagger u to the right
     u_stag_old = 0.5*(u_old+np.roll(u_old, 1))
     for i in range(ntime):
-        u_stag_new = u_stag_old-c/2*np.sqrt(g/H)*(np.roll(h_old,1)-h_old)
-        h_new = h_old-c/2*np.sqrt(H/g)*(u_stag_new-np.roll(u_stag_new,-1))
+        u_stag_new = u_stag_old-c*np.sqrt(g/H)*(np.roll(h_old,1)-h_old)
+        h_new = h_old-c*np.sqrt(H/g)*(u_stag_new-np.roll(u_stag_new,-1))
         u_stag_old = u_stag_new.copy()
         h_old = h_new.copy()
     # Stagger u back to the left again
