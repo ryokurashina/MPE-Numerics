@@ -41,7 +41,7 @@ def main():
     """""
 
     # SW
-    u, h = SSW(u_init, h_init, n_steps, c, H)
+    u, h = SFB(u_init, h_init, n_steps, c, H)
     u_exact, h_exact = trav_wave(x, T, k, H, 1)
     # Plot results
     plt.figure(1)

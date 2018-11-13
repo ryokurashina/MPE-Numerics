@@ -46,7 +46,7 @@ t = 0
 for i in range(n_steps):
     # Update f1 and f2
     # Compute the solution for one time-step
-    u_new, h_new = SSW(u_old, h_old, 1, c, H)
+    u_new, h_new = SFB(u_old, h_old, 1, c, H)
     u_exact, h_exact = trav_wave(x, t, k, H, 1)
     # Plot results
     plt.title('Animation')

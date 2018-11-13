@@ -24,7 +24,7 @@ def trav_wave(x, t, k, H, direction):
         h = np.cos(2*pi*k*(x-np.sqrt(g*H)*t))
     return u, h
 
-def USW(u, h, ntime, c, H):
+def UFB(u, h, ntime, c, H):
     # Gravitational aceleration
     g = 9.81
     N = len(u)
@@ -41,7 +41,7 @@ def USW(u, h, ntime, c, H):
     return u_new, h_new
 
 
-def SSW(u, h, ntime, c, H):
+def SFB(u, h, ntime, c, H):
     # Gravitational aceleration
     g = 9.81
     N = len(u)
