@@ -28,8 +28,8 @@ n_steps = 500
 # Initial condition
 k = 4
 t = 0
-u_init = -np.sqrt(g/H)*np.cos(2*pi*k*x)/100
-h_init = np.cos(2*pi*k*x)/100
+u_init = -np.sqrt(g/H)*np.cos(2*pi*k*x)
+h_init = np.cos(2*pi*k*x)
 
 # Courant number
 c = np.sqrt(g*H)*dt/dx
@@ -53,8 +53,8 @@ for i in range(n_steps):
     plt.title('Animation')
     plt.plot(x,h_new,label='h')
     plt.plot(x,u_new,label='u')
-    plt.plot(x,h_exact/100,label='h_exact')
-    plt.plot(x,u_exact/100,label='u_exact')
+    plt.plot(x,h_exact,label='h_exact')
+    plt.plot(x,u_exact,label='u_exact')
     # plt.plot(x,u_exact,label='u_exact')
     plt.xlabel('x')
     plt.legend()

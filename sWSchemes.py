@@ -8,7 +8,7 @@ List of numerical schemes:
 import numpy as np
 import matplotlib.pyplot as plt
 
-from postProcess import *
+from analyse import *
 from math import pi
 from scipy.interpolate import interp1d
 
@@ -39,7 +39,6 @@ def UFB(u, h, ntime, c, H):
         u_old = u_new.copy()
         h_old = h_new.copy()
     return u_new, h_new
-
 
 def SFB(u, h, ntime, c, H, x, x_shift):
     # Gravitational aceleration
