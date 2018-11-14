@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 from initialConditions import *
 from linAdSchemes import *
 from sWSchemes import *
-from postProcess import *
+from analyse import *
 
 # Parameters
 N = 64
@@ -21,14 +21,15 @@ x = x_[0:N]
 g = 9.81
 H = 1
 dx = 1/(N-1)
+x_shift = x + 0.5*dx*np.ones_like(x)
 dt = 1e-3
-n_steps = 200
+n_steps = 500
 
 # Initial condition
 k = 4
 t = 0
-u_init = -np.sqrt(g/H)*np.cos(2*pi*k*x)
-h_init = np.cos(2*pi*k*x)
+u_init = -np.sqrt(g/H)*np.cos(2*pi*k*x)/100
+h_init = np.cos(2*pi*k*x)/100
 
 # Courant number
 c = np.sqrt(g*H)*dt/dx
@@ -46,14 +47,14 @@ t = 0
 for i in range(n_steps):
     # Update f1 and f2
     # Compute the solution for one time-step
-    u_new, h_new = SFB(u_old, h_old, 1, c, H)
+    u_new, h_new = SFB(u_old, h_old, 1, c, H, x, x_shift)
     u_exact, h_exact = trav_wave(x, t, k, H, 1)
     # Plot results
     plt.title('Animation')
     plt.plot(x,h_new,label='h')
     plt.plot(x,u_new,label='u')
-    plt.plot(x,h_exact,label='h_exact')
-    plt.plot(x,u_exact,label='u_exact')
+    plt.plot(x,h_exact/100,label='h_exact')
+    plt.plot(x,u_exact/100,label='u_exact')
     # plt.plot(x,u_exact,label='u_exact')
     plt.xlabel('x')
     plt.legend()

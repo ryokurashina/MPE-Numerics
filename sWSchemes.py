@@ -41,7 +41,7 @@ def UFB(u, h, ntime, c, H):
     return u_new, h_new
 
 
-def SFB(u, h, ntime, c, H):
+def SFB(u, h, ntime, c, H, x, x_shift):
     # Gravitational aceleration
     g = 9.81
     N = len(u)
@@ -51,12 +51,21 @@ def SFB(u, h, ntime, c, H):
     h_old = np.array(h)
     h_new = np.zeros(N)
     # Stagger u to the right
-    u_stag_old = 0.5*(u_old+np.roll(u_old, 1))
+    x_ = np.concatenate((x, np.array([1])))
+    u_end = np.array([u_old[0]])
+    u = np.concatenate((u, u_end))
+    # Create functions for cubically interpolated values
+    f = interp1d(x_, u, kind='cubic')
+    u_stag_old = f(x_shift)
     for i in range(ntime):
         u_stag_new = u_stag_old-c*np.sqrt(g/H)*(np.roll(h_old,1)-h_old)
         h_new = h_old-c*np.sqrt(H/g)*(u_stag_new-np.roll(u_stag_new,-1))
         u_stag_old = u_stag_new.copy()
         h_old = h_new.copy()
     # Stagger u back to the left again
-    u_new = 0.5*(np.roll(u_stag_new, -1)+u_stag_new)
+    x_shift = np.concatenate((np.array([-x_shift[1]]),x_shift))
+    u_start = np.array([u_stag_new[N-1]])
+    u = np.concatenate((u_start, u_stag_new))
+    f_ = interp1d(x_shift, u, kind='cubic')
+    u_new = f_(x)
     return u_new, h_new

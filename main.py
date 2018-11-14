@@ -28,8 +28,10 @@ def main():
     # Initialise timestep, grid-size and advection velocity
     dx = 1/(N-1)
     dt = 1e-3
-    n_steps = 200
+    n_steps = 2]
     T = n_steps*dt
+
+    x_shift = x + 0.5*dx*np.ones_like(x)
 
     # Courant number
     c = np.sqrt(g*H)*dt/dx
@@ -41,11 +43,13 @@ def main():
     """""
 
     # SW
-    u, h = SFB(u_init, h_init, n_steps, c, H)
+    u1, h1 = UFB(u_init, h_init, n_steps, c, H)
+    u2, h2 = SFB(u_init, h_init, n_steps, c, H ,x, x_shift)
     u_exact, h_exact = trav_wave(x, T, k, H, 1)
     # Plot results
     plt.figure(1)
-    plt.plot(x,u, label="Numerical Solution")
+    plt.plot(x,u1, label="UFB")
+    plt.plot(x,u2, label="SFB")
     plt.plot(x,u_exact, label="Exact Solution")
     plt.plot(x,u_init, '--', label="Initial Condition")
     plt.xlabel('x')
@@ -54,7 +58,8 @@ def main():
     plt.show()
 
     plt.figure(2)
-    plt.plot(x,h, label="Numerical Solution")
+    plt.plot(x,h1, label="UFB")
+    plt.plot(x,h2, label="SFB")
     plt.plot(x,h_exact, label="Exact Solution")
     plt.plot(x,h_init, '--',label="Initial Condition")
     plt.xlabel('x')
