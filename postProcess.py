@@ -1,12 +1,4 @@
-"""""
-File contains functions that produces plots for the report. Includes plots for:
-* Dispersion properties of UFB and SFB
-* L1-norm growth of UFB and SFB
-* L2-norm growth of UFB and SFB
-* L2-norm convergence of UFB and SFB with decreasing spatial-steps
-* L2-norm convergence of UFB and SFB with decreasing time-steps
-* Calculating the centered p-th moment of UFB and SFB schemes
-"""""
+""""" File contains functions that produces plots for the report """""
 
 # Import packages and libraries
 import numpy as np
@@ -19,6 +11,8 @@ from analyse import *
 from math import pi
 
 def dispersion(N, k, dt, n_steps, H):
+    """ Produces plots to be able to visibly see dispersion errors """
+
     # Set resolution and parameters
     x_ = np.linspace(0, 1, N+1)
     x = x_[0:N]
@@ -67,6 +61,7 @@ def dispersion(N, k, dt, n_steps, H):
     plt.show()
 
 def L1_growth(N, k, dt, n_steps, H):
+    """ Produces plots which tracks the L1-norm error growth in time """
     # Set resolution and parameters
     x_ = np.linspace(0, 1, N+1)
     x = x_[0:N]
@@ -143,6 +138,7 @@ def L1_growth(N, k, dt, n_steps, H):
     plt.show()
 
 def L2_growth(N, k, dt, n_steps, H):
+    """ Produces plots which tracks the L2-norm error growth in time """
     # Set resolution and parameters
     x_ = np.linspace(0, 1, N+1)
     x = x_[0:N]
@@ -214,6 +210,7 @@ def L2_growth(N, k, dt, n_steps, H):
     plt.show()
 
 def L2_convergence_x(k, dt, n_steps, H):
+    """ Shows the L2-norm convergence of UFB and SFB schemes in space """
     # Set resolution and parameters
     N_vec = [8, 16, 32, 64, 128, 256, 512, 1024]
     M = len(N_vec)
@@ -282,6 +279,7 @@ def L2_convergence_x(k, dt, n_steps, H):
     plt.show()
 
 def L2_convergence_t(N, k, n_steps, H):
+    """ Shows the L2-norm convergence of UFB and SFB schemes in time """
     # Set resolution and parameters
     dt = 1e-4
     dt_vec = np.array([dt, dt/2, dt/4, dt/8, dt/16])
@@ -353,6 +351,7 @@ def L2_convergence_t(N, k, n_steps, H):
     plt.show()
 
 def calc_moments(N, k, dt, n_steps, H, p):
+    """ Calculates the centered p-th moment for each time-step and produces plots"""
     # Set resolution and parameters
     # Calculate which moment
     x_ = np.linspace(0, 1, N+1)

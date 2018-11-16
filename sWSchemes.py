@@ -1,8 +1,5 @@
 """""
-Contains various numerical schemes for the linearised 1D-SW equations with f = 0.
-
-List of numerical schemes:
-* Unstaggered SW (USW)
+Contains numerical schemes for the linearised 1D-SW equations with f = 0.
 """""
 
 import numpy as np
@@ -13,6 +10,11 @@ from math import pi
 from scipy.interpolate import interp1d
 
 def trav_wave(x, t, k, H, direction):
+    """
+    Returns the exact travelling wave solution to the linearised 1D-SW equations
+    with direction = 0 for the left-travelling wave and direction = 1 for the
+    right-travelling wave.
+    """
     g = 9.81
     t_vec = t*np.ones_like(x)
     # Take left-travelling wave if 0
@@ -25,6 +27,10 @@ def trav_wave(x, t, k, H, direction):
     return u, h
 
 def UFB(u, h, ntime, c, H):
+    """
+    Unstaggered Forward-Backward Scheme for solving the linearised 1D-SW
+    equations.
+    """
     # Gravitational aceleration
     g = 9.81
     N = len(u)
@@ -41,6 +47,11 @@ def UFB(u, h, ntime, c, H):
     return u_new, h_new
 
 def SFB(u, h, ntime, c, H, x, x_shift):
+    """
+    Staggered Forward-Backward Scheme for solving the linearised 1D-SW
+    equations. Must also state the unstaggered and staggered grids in the
+    funtion a arguments (x and x_shift respectively).
+    """
     # Gravitational aceleration
     g = 9.81
     N = len(u)

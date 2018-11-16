@@ -19,4 +19,3 @@ from math import pi
 # L2_convergence_x(1, 1e-4, 200, 1)
 # L2_convergence_t(8, 1, 100, 1)
 calc_moments(8, 1, 1e-3, 1000, 1, 2)
-# test()
