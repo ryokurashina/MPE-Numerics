@@ -62,9 +62,9 @@ def SFB(u, h, ntime, c, H, x, x_shift):
         u_stag_old = u_stag_new.copy()
         h_old = h_new.copy()
     # Stagger u back to the left again
-    x_shift = np.concatenate((np.array([-x_shift[1]]),x_shift))
+    x_shift_ = np.concatenate((np.array([-x_shift[0]]),x_shift))
     u_start = np.array([u_stag_new[N-1]])
     u = np.concatenate((u_start, u_stag_new))
-    f_ = interp1d(x_shift, u, kind='cubic')
+    f_ = interp1d(x_shift_, u, kind='cubic')
     u_new = f_(x)
     return u_new, h_new

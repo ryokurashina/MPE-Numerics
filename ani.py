@@ -1,7 +1,8 @@
 """""
-Animation code to see how numerical scheme develops in real time. This isn't
-so good for post-processing or analysis of results but more as a visual aid for
-the user
+Animation code to see how numerical scheme develops in real time.
+
+It has been set up to show the strange "oscillation" of the solution about the
+exact solution.
 """""
 
 import os
@@ -15,7 +16,7 @@ from sWSchemes import *
 from analyse import *
 
 # Parameters
-N = 64
+N = 16
 x_ = np.linspace(0, 1, N+1)
 x = x_[0:N]
 g = 9.81
@@ -26,7 +27,7 @@ dt = 1e-3
 n_steps = 500
 
 # Initial condition
-k = 4
+k = 1
 t = 0
 u_init = -np.sqrt(g/H)*np.cos(2*pi*k*x)
 h_init = np.cos(2*pi*k*x)
@@ -38,31 +39,34 @@ print("Courant Number (c): %f" %(c))
 plt.ion()
 plt.pause(1)
 
-u_old = u_init
-h_old = h_init
+u_old1 = u_init
+h_old1 = h_init
+
+u_old2 = u_init
+h_old2 = h_init
 
 t = 0
 
-# Loop through 1 time-step at a time and plot for animation
+# Loop through 1 time-step at a time nd plot for animation
 for i in range(n_steps):
     # Update f1 and f2
     # Compute the solution for one time-step
-    u_new, h_new = SFB(u_old, h_old, 1, c, H, x, x_shift)
+    u_new1, h_new1 = UFB(u_old1, h_old1, 1, c, H)
+    u_new2, h_new2 = SFB(u_old2, h_old2, 1, c, H, x, x_shift)
     u_exact, h_exact = trav_wave(x, t, k, H, 1)
     # Plot results
     plt.title('Animation')
-    plt.plot(x,h_new,label='h')
-    plt.plot(x,u_new,label='u')
-    plt.plot(x,h_exact,label='h_exact')
+    plt.plot(x,u_new2,label='u (SFB)')
     plt.plot(x,u_exact,label='u_exact')
-    # plt.plot(x,u_exact,label='u_exact')
     plt.xlabel('x')
     plt.legend()
     plt.draw()
     plt.pause(0.1)
     plt.clf()
-    u_old = u_new.copy()
-    h_old = h_new.copy()
+    u_old1 = u_new1.copy()
+    h_old1 = h_new1.copy()
+    u_old2 = u_new2.copy()
+    h_old2 = h_new2.copy()
     # Update time
     t = (i+1)*dt
 plt.ioff()
