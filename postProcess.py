@@ -3,6 +3,8 @@
 # Import packages and libraries
 import numpy as np
 import matplotlib.pyplot as plt
+plt.rcParams['mathtext.fontset'] = 'stix'
+plt.rcParams['font.family'] = 'STIXGeneral'
 
 from initialConditions import *
 from linAdSchemes import *
@@ -12,18 +14,16 @@ from math import pi
 
 def dispersion(N, k, dt, n_steps, H):
     """ Produces plots to be able to visibly see dispersion errors """
-
-    # Set resolution and parameters
+    # Set grid and parameters
     x_ = np.linspace(0, 1, N+1)
     x = x_[0:N]
     g = 9.81
-    H = 1
 
     # Initial condition
     u_init = -np.sqrt(g/H)*np.cos(2*pi*k*x)
     h_init = np.cos(2*pi*k*x)
 
-    # Initialise timestep, grid-size and advection velocity
+    # Initialise grid-size and total time
     dx = 1/(N-1)
     dt = 1e-3
     n_steps = 100
@@ -39,14 +39,16 @@ def dispersion(N, k, dt, n_steps, H):
     u1, h1 = UFB(u_init, h_init, n_steps, c, H)
     u2, h2 = SFB(u_init, h_init, n_steps, c, H, x, x_shift)
     u_exact, h_exact = trav_wave(x, T, k, H, 1)
+
     # Plot results
     plt.figure(1)
     plt.plot(x,u1, label="UFB")
     plt.plot(x,u2, label="SFB")
     plt.plot(x,u_exact, label="Exact Solution")
     plt.plot(x,u_init, '--', label="Initial Condition")
-    plt.xlabel('x')
-    plt.ylabel('u')
+    plt.title('(a)')
+    plt.xlabel('$x$')
+    plt.ylabel('$u$')
     plt.legend()
     plt.show()
 
@@ -55,14 +57,15 @@ def dispersion(N, k, dt, n_steps, H):
     plt.plot(x, h2, label="SFB")
     plt.plot(x ,h_exact, label="Exact Solution")
     plt.plot(x ,h_init, '--', label="Initial Condition")
-    plt.xlabel('x')
-    plt.ylabel('h')
+    plt.title('(b)')
+    plt.xlabel('$x$')
+    plt.ylabel('$h$')
     plt.legend()
     plt.show()
 
 def L1_growth(N, k, dt, n_steps, H):
     """ Produces plots which tracks the L1-norm error growth in time """
-    # Set resolution and parameters
+    # Set grid and parameters
     x_ = np.linspace(0, 1, N+1)
     x = x_[0:N]
     g = 9.81
@@ -71,7 +74,7 @@ def L1_growth(N, k, dt, n_steps, H):
     u_init = -np.sqrt(g/H)*np.cos(2*pi*k*x)
     h_init = np.cos(2*pi*k*x)
 
-    # Initialise timestep, grid-size and advection velocity
+    # Initialise grid-size and total time
     dx = 1/(N-1)
     T = n_steps*dt
 
@@ -89,11 +92,13 @@ def L1_growth(N, k, dt, n_steps, H):
     H2 = np.zeros(n_steps)
     H_exact = np.zeros(n_steps)
 
+    # Initialise for loop
     u_old1 = u_init
     h_old1 = h_init
     u_old2 = u_init
     h_old2 = h_init
 
+    # Perform a UFB and SFB step each iteration
     for i in range(n_steps):
         t = (i+1)*dt
         # SW
@@ -101,6 +106,7 @@ def L1_growth(N, k, dt, n_steps, H):
         u_new2, h_new2 = SFB(u_old2, h_old2, 1, c, H , x, x_shift)
         u_exact, h_exact = trav_wave(x, t, k, H, 1)
 
+        # Store the L1-norms
         U1[i] = total_abs(u_new1)
         U2[i] = total_abs(u_new2)
         U_exact[i] = total_abs(u_exact)
@@ -120,9 +126,9 @@ def L1_growth(N, k, dt, n_steps, H):
     plt.plot(range(1,n_steps+1), U1, label="UFB")
     plt.plot(range(1,n_steps+1), U2, label="SFB")
     plt.plot(range(1,n_steps+1), U_exact, "--", label="Exact Solution")
-    plt.title('L1-norms for u')
-    plt.xlabel('Timestep')
-    plt.ylabel('L1-norm')
+    plt.title('(a)')
+    plt.xlabel('Time-step')
+    plt.ylabel('$L^1(u)$')
     plt.legend()
     plt.show()
 
@@ -131,15 +137,15 @@ def L1_growth(N, k, dt, n_steps, H):
     plt.plot(range(1,n_steps+1), H1, label="UFB")
     plt.plot(range(1,n_steps+1), H2, label="SFB")
     plt.plot(range(1,n_steps+1), H_exact, "--", label="Exact Solution")
-    plt.title('L1-norms for h')
-    plt.xlabel('Timestep')
-    plt.ylabel('L1-norm')
+    plt.title('(b)')
+    plt.xlabel('Time-step')
+    plt.ylabel('$L^1(h)$')
     plt.legend()
     plt.show()
 
 def L2_growth(N, k, dt, n_steps, H):
     """ Produces plots which tracks the L2-norm error growth in time """
-    # Set resolution and parameters
+    # Set grid and parameters
     x_ = np.linspace(0, 1, N+1)
     x = x_[0:N]
     g = 9.81
@@ -149,7 +155,7 @@ def L2_growth(N, k, dt, n_steps, H):
     u_init = -np.sqrt(g/H)*np.cos(2*pi*k*x)
     h_init = np.cos(2*pi*k*x)
 
-    # Initialise timestep, grid-size and advection velocity
+    # Initialise grid-size and total time
     dx = 1/(N-1)
     T = n_steps*dt
 
@@ -170,6 +176,7 @@ def L2_growth(N, k, dt, n_steps, H):
     u_old2 = u_init
     h_old2 = h_init
 
+    # Perform one UFB and SFB step per iteration
     for i in range(n_steps):
         t = (i+1)*dt
         # SW
@@ -177,6 +184,7 @@ def L2_growth(N, k, dt, n_steps, H):
         u_new2, h_new2 = SFB(u_old2, h_old2, 1, c, H , x, x_shift)
         u_exact, h_exact = trav_wave(x, t, k, H, 1)
 
+        # Store L2-norm values
         e1_u[i] = L2_error(u_new1, u_exact)
         e2_u[i] = L2_error(u_new2, u_exact)
 
@@ -193,9 +201,9 @@ def L2_growth(N, k, dt, n_steps, H):
     plt.figure(1)
     plt.plot(range(1,n_steps+1), e1_u, label="UFB")
     plt.plot(range(1,n_steps+1), e2_u, label="SFB")
-    plt.title('L2-error norms for u')
-    plt.xlabel('Timestep')
-    plt.ylabel('L2_error')
+    plt.title('(a)')
+    plt.xlabel('Time-step')
+    plt.ylabel('$L^2(u-u_{exact})$')
     plt.legend()
     plt.show()
 
@@ -203,9 +211,9 @@ def L2_growth(N, k, dt, n_steps, H):
     plt.figure(2)
     plt.plot(range(1,n_steps+1), e1_h, label="UFB")
     plt.plot(range(1,n_steps+1), e2_h, label="SFB")
-    plt.title('L2-error norms for h')
-    plt.xlabel('Timestep')
-    plt.ylabel('L2_error')
+    plt.title('(b)')
+    plt.xlabel('Time-step')
+    plt.ylabel('$L^2(h-h_{exact})$')
     plt.legend()
     plt.show()
 
@@ -258,42 +266,41 @@ def L2_convergence_x(k, dt, n_steps, H):
 
     # Plot results
     plt.figure(1)
-    plt.plot(np.log(N_vec), np.log(e1_u), label="UFB")
-    plt.plot(np.log(N_vec), np.log(e2_u), label="SFB")
+    plt.plot(np.log(N_vec), np.log(e1_u), "^-", label="UFB")
+    plt.plot(np.log(N_vec), np.log(e2_u), "^-", label="SFB")
     plt.plot(np.log(N_vec), -2*np.log(N_vec)+2, label="Line Gradient -2")
-    plt.title('L2-error norms for h')
-    plt.xlabel('log(N)')
-    plt.ylabel('log(L2-error)')
+    plt.title('(a)')
+    plt.xlabel('$\log(N)$')
+    plt.ylabel('$L^2(u-u_{exact})$')
     plt.legend()
     plt.show()
 
     # Plot results
     plt.figure(2)
-    plt.plot(np.log(N_vec), np.log(e1_h), label="UFB")
-    plt.plot(np.log(N_vec), np.log(e2_h), label="SFB")
+    plt.plot(np.log(N_vec), np.log(e1_h), "^-", label="UFB")
+    plt.plot(np.log(N_vec), np.log(e2_h), "^-", label="SFB")
     plt.plot(np.log(N_vec), -2*np.log(N_vec), label="Line Gradient -2")
-    plt.title('L2-error norms for h')
-    plt.xlabel('log(N)')
-    plt.ylabel('log(L2-error)')
+    plt.title('(b)')
+    plt.xlabel('$\log(N)$')
+    plt.ylabel('$L^2(h-h_{exact})$')
     plt.legend()
     plt.show()
 
 def L2_convergence_t(N, k, n_steps, H):
     """ Shows the L2-norm convergence of UFB and SFB schemes in time """
-    # Set resolution and parameters
+    # Set time-steps and parameters
     dt = 1e-4
     dt_vec = np.array([dt, dt/2, dt/4, dt/8, dt/16])
     M = len(dt_vec)
     g = 9.81
-    H = 1
 
-    # Initialise timestep, grid-size and advection velocity
     # Array to store L2-errors
     e1_u = np.zeros(M)
     e2_u = np.zeros(M)
     e1_h = np.zeros(M)
     e2_h = np.zeros(M)
 
+    # Set grid
     x_ = np.linspace(0, 1, N+1)
     x = x_[0:N]
     dx = 1/(N-1)
@@ -303,6 +310,7 @@ def L2_convergence_t(N, k, n_steps, H):
     u_init = -np.sqrt(g/H)*np.cos(2*pi*k*x)
     h_init = np.cos(2*pi*k*x)
 
+    # Perform UFB and SFB for each grid
     for i in range(M):
         # We want to get to the same point in time
         n_steps = int(2e-2/dt_vec[i])
@@ -322,6 +330,7 @@ def L2_convergence_t(N, k, n_steps, H):
         u_new2, h_new2 = SFB(u_old2, h_old2, n_steps, c, H , x, x_shift)
         u_exact, h_exact = trav_wave(x, T, k, H, 1)
 
+        # Store L2-norm errors for each grid
         e1_u[i] = L2_error(u_new1, u_exact)
         e2_u[i] = L2_error(u_new2, u_exact)
 
@@ -330,30 +339,27 @@ def L2_convergence_t(N, k, n_steps, H):
 
     # Plot results
     plt.figure(1)
-    plt.plot(np.log(dt_vec), np.log(e1_u), '^', label="UFB")
-    plt.plot(np.log(dt_vec), np.log(e2_u), '^', label="SFB")
-    # plt.plot(np.log(dt_vec), -2*np.log(dt_vec)+2, label="Line Gradient -2")
-    plt.title('L2-error norms for u')
-    plt.xlabel('log(dt)')
-    plt.ylabel('log(L2-error)')
+    plt.plot(np.log(dt_vec), np.log(e1_u), '^-', label="UFB")
+    plt.plot(np.log(dt_vec), np.log(e2_u), '^-', label="SFB")
+    plt.title('(a)')
+    plt.xlabel('$\log(dt)$')
+    plt.ylabel('$log(L^2(u-u_{exact}))$')
     plt.legend()
     plt.show()
 
     # Plot results
     plt.figure(2)
-    plt.plot(np.log(dt_vec), np.log(e1_h), label="UFB")
-    plt.plot(np.log(dt_vec), np.log(e2_h), label="SFB")
-    # plt.plot(np.log(dt_vec), -2*np.log(dt_vec), label="Line Gradient -2")
-    plt.title('L2-error norms for h')
-    plt.xlabel('log(dt)')
-    plt.ylabel('log(L2-error)')
+    plt.plot(np.log(dt_vec), np.log(e1_h), '^-', label="UFB")
+    plt.plot(np.log(dt_vec), np.log(e2_h), '^-', label="SFB")
+    plt.title('(b)')
+    plt.xlabel('\log(dt)')
+    plt.ylabel('$log(L^2(h-h_{exact}))$')
     plt.legend()
     plt.show()
 
 def calc_moments(N, k, dt, n_steps, H, p):
     """ Calculates the centered p-th moment for each time-step and produces plots"""
-    # Set resolution and parameters
-    # Calculate which moment
+    # Set grid and parameters
     x_ = np.linspace(0, 1, N+1)
     x = x_[0:N]
     g = 9.81
@@ -362,7 +368,7 @@ def calc_moments(N, k, dt, n_steps, H, p):
     u_init = -np.sqrt(g/H)*np.cos(2*pi*k*x)
     h_init = np.cos(2*pi*k*x)
 
-    # Initialise timestep, grid-size and advection velocity
+    # Initialise grid-size and total time
     dx = 1/(N-1)
     T = n_steps*dt
 
@@ -385,6 +391,7 @@ def calc_moments(N, k, dt, n_steps, H, p):
     u_old2 = u_init
     h_old2 = h_init
 
+    # Calculate the centered p-th moment at each time-step for UFB and SFB
     for i in range(n_steps):
         t = (i+1)*dt
         # SW
@@ -413,9 +420,9 @@ def calc_moments(N, k, dt, n_steps, H, p):
     plt.plot(n_steps_vec, m1_u, label="UFB")
     plt.plot(n_steps_vec, m2_u, label="SFB")
     plt.plot(n_steps_vec, m_u_exact, label="Exact")
-    plt.title('p-th moment of u')
-    plt.xlabel('timestep')
-    plt.ylabel('moment')
+    plt.title('(a)')
+    plt.xlabel('Time-step')
+    plt.ylabel('Moment')
     plt.legend()
     plt.show()
 
@@ -423,8 +430,8 @@ def calc_moments(N, k, dt, n_steps, H, p):
     plt.plot(n_steps_vec, m1_h, label="UFB")
     plt.plot(n_steps_vec, m2_h, label="SFB")
     plt.plot(n_steps_vec, m_h_exact, label="Exact")
-    plt.title('p-th moment of h')
-    plt.xlabel('timestep')
-    plt.ylabel('moment')
+    plt.title('(b)')
+    plt.xlabel('Time-step')
+    plt.ylabel('Moment')
     plt.legend()
     plt.show()
