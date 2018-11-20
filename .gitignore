@@ -1,6 +1,6 @@
 # Ignore folder for plots
 /plots/*
-!/plots/dummy/
+!/plots/dummy.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
