@@ -50,7 +50,7 @@ def dispersion(N, k, dt, n_steps, H):
     plt.xlabel('$x$')
     plt.ylabel('$u$')
     plt.legend()
-    plt.show()
+    plt.savefig("plots/Dispersion_u.png")
 
     plt.figure(2)
     plt.plot(x, h1, label="UFB")
@@ -61,7 +61,7 @@ def dispersion(N, k, dt, n_steps, H):
     plt.xlabel('$x$')
     plt.ylabel('$h$')
     plt.legend()
-    plt.show()
+    plt.savefig("plots/Dispersion_h.png")
 
 def L1_growth(N, k, dt, n_steps, H):
     """ Produces plots which tracks the L1-norm error growth in time """
@@ -130,7 +130,7 @@ def L1_growth(N, k, dt, n_steps, H):
     plt.xlabel('Time-step')
     plt.ylabel('$L^1(u)$')
     plt.legend()
-    plt.show()
+    plt.savefig("plots/L1_growth_u.png")
 
     # Plot results
     plt.figure(2)
@@ -141,10 +141,13 @@ def L1_growth(N, k, dt, n_steps, H):
     plt.xlabel('Time-step')
     plt.ylabel('$L^1(h)$')
     plt.legend()
-    plt.show()
+    plt.savefig("plots/L1_growth_h.png")
 
 def L2_growth(N, k, dt, n_steps, H):
-    """ Produces plots which tracks the L2-norm error growth in time """
+    """
+    Produces plots which tracks the L2-norm error growth in time
+    Not used in final report
+    """
     # Set grid and parameters
     x_ = np.linspace(0, 1, N+1)
     x = x_[0:N]
@@ -205,7 +208,6 @@ def L2_growth(N, k, dt, n_steps, H):
     plt.xlabel('Time-step')
     plt.ylabel('$L^2(u-u_{exact})$')
     plt.legend()
-    plt.show()
 
     # Plot results
     plt.figure(2)
@@ -215,7 +217,6 @@ def L2_growth(N, k, dt, n_steps, H):
     plt.xlabel('Time-step')
     plt.ylabel('$L^2(h-h_{exact})$')
     plt.legend()
-    plt.show()
 
 def L2_convergence_x(k, dt, n_steps, H):
     """ Shows the L2-norm convergence of UFB and SFB schemes in space """
@@ -273,7 +274,7 @@ def L2_convergence_x(k, dt, n_steps, H):
     plt.xlabel('$\log(N)$')
     plt.ylabel('$L^2(u-u_{exact})$')
     plt.legend()
-    plt.show()
+    plt.savefig("plots/spatial_conv_u")
 
     # Plot results
     plt.figure(2)
@@ -284,10 +285,13 @@ def L2_convergence_x(k, dt, n_steps, H):
     plt.xlabel('$\log(N)$')
     plt.ylabel('$L^2(h-h_{exact})$')
     plt.legend()
-    plt.show()
+    plt.savefig("plots/spatial_conv_h")
 
 def L2_convergence_t(N, k, n_steps, H):
-    """ Shows the L2-norm convergence of UFB and SFB schemes in time """
+    """
+    Shows the L2-norm convergence of UFB and SFB schemes in time
+    Not used in final report
+    """
     # Set time-steps and parameters
     dt = 1e-4
     dt_vec = np.array([dt, dt/2, dt/4, dt/8, dt/16])
@@ -419,19 +423,19 @@ def calc_moments(N, k, dt, n_steps, H, p):
     plt.figure(1)
     plt.plot(n_steps_vec, m1_u, label="UFB")
     plt.plot(n_steps_vec, m2_u, label="SFB")
-    plt.plot(n_steps_vec, m_u_exact, label="Exact")
+    plt.plot(n_steps_vec, m_u_exact, "--", label="Exact")
     plt.title('(a)')
     plt.xlabel('Time-step')
     plt.ylabel('Moment')
     plt.legend()
-    plt.show()
+    plt.savefig("plots/Moment_u.png")
 
     plt.figure(2)
     plt.plot(n_steps_vec, m1_h, label="UFB")
     plt.plot(n_steps_vec, m2_h, label="SFB")
-    plt.plot(n_steps_vec, m_h_exact, label="Exact")
+    plt.plot(n_steps_vec, m_h_exact, "--", label="Exact")
     plt.title('(b)')
     plt.xlabel('Time-step')
     plt.ylabel('Moment')
     plt.legend()
-    plt.show()
+    plt.savefig("plots/Moment_h.png")

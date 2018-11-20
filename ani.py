@@ -51,7 +51,6 @@ def animation(N, k, dt, n_steps, H):
 
     # Loop through 1 time-step at a time nd plot for animation
     for i in range(n_steps):
-        # Update f1 and f2
         # Compute the solution for one time-step
         u_new1, h_new1 = UFB(u_old1, h_old1, 1, c, H)
         u_new2, h_new2 = SFB(u_old2, h_old2, 1, c, H, x, x_shift)

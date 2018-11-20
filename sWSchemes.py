@@ -39,6 +39,7 @@ def UFB(u, h, ntime, c, H):
     u_new = np.zeros(N)
     h_old = np.array(h)
     h_new = np.zeros(N)
+    # Perform UFB iterations
     for i in range(ntime):
         u_new = u_old-c/2*np.sqrt(g/H)*(np.roll(h_old,1)-np.roll(h_old,-1))
         h_new = h_old-c/2*np.sqrt(H/g)*(np.roll(u_new,1)-np.roll(u_new,-1))
@@ -67,6 +68,7 @@ def SFB(u, h, ntime, c, H, x, x_shift):
     # Create functions for cubically interpolated values
     f = interp1d(x_, u, kind='cubic')
     u_stag_old = f(x_shift)
+    # Perform SFB iterations
     for i in range(ntime):
         u_stag_new = u_stag_old-c*np.sqrt(g/H)*(np.roll(h_old,1)-h_old)
         h_new = h_old-c*np.sqrt(H/g)*(u_stag_new-np.roll(u_stag_new,-1))
