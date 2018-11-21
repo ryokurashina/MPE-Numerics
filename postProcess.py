@@ -6,8 +6,6 @@ import matplotlib.pyplot as plt
 plt.rcParams['mathtext.fontset'] = 'stix'
 plt.rcParams['font.family'] = 'STIXGeneral'
 
-from initialConditions import *
-from linAdSchemes import *
 from sWSchemes import *
 from analyse import *
 from math import pi

@@ -7,8 +7,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
-from linAdSchemes import *
-from initialConditions import *
 from sWSchemes import *
 from postProcess import *
 from math import pi
