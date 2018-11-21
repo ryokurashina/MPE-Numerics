@@ -51,6 +51,7 @@ def dispersion(N, k, dt, n_steps, H):
     plt.ylabel('$u$')
     plt.legend()
     plt.savefig("plots/Dispersion_u.png")
+    plt.close()
 
     plt.figure(2)
     plt.plot(x, h1, label="UFB")
@@ -62,6 +63,7 @@ def dispersion(N, k, dt, n_steps, H):
     plt.ylabel('$h$')
     plt.legend()
     plt.savefig("plots/Dispersion_h.png")
+    plt.close()
 
 def L1_growth(N, k, dt, n_steps, H):
     """ Produces plots which tracks the L1-norm error growth in time """
@@ -131,6 +133,7 @@ def L1_growth(N, k, dt, n_steps, H):
     plt.ylabel('$L^1(u)$')
     plt.legend()
     plt.savefig("plots/L1_growth_u.png")
+    plt.close()
 
     # Plot results
     plt.figure(2)
@@ -142,6 +145,7 @@ def L1_growth(N, k, dt, n_steps, H):
     plt.ylabel('$L^1(h)$')
     plt.legend()
     plt.savefig("plots/L1_growth_h.png")
+    plt.close()
 
 def L2_growth(N, k, dt, n_steps, H):
     """
@@ -208,6 +212,7 @@ def L2_growth(N, k, dt, n_steps, H):
     plt.xlabel('Time-step')
     plt.ylabel('$L^2(u-u_{exact})$')
     plt.legend()
+    plt.close()
 
     # Plot results
     plt.figure(2)
@@ -217,6 +222,7 @@ def L2_growth(N, k, dt, n_steps, H):
     plt.xlabel('Time-step')
     plt.ylabel('$L^2(h-h_{exact})$')
     plt.legend()
+    plt.close()
 
 def L2_convergence_x(k, dt, n_steps, H):
     """ Shows the L2-norm convergence of UFB and SFB schemes in space """
@@ -275,6 +281,7 @@ def L2_convergence_x(k, dt, n_steps, H):
     plt.ylabel('$L^2(u-u_{exact})$')
     plt.legend()
     plt.savefig("plots/spatial_conv_u")
+    plt.close()
 
     # Plot results
     plt.figure(2)
@@ -286,6 +293,7 @@ def L2_convergence_x(k, dt, n_steps, H):
     plt.ylabel('$L^2(h-h_{exact})$')
     plt.legend()
     plt.savefig("plots/spatial_conv_h")
+    plt.close()
 
 def L2_convergence_t(N, k, n_steps, H):
     """
@@ -426,9 +434,10 @@ def calc_moments(N, k, dt, n_steps, H, p):
     plt.plot(n_steps_vec, m_u_exact, "--", label="Exact")
     plt.title('(a)')
     plt.xlabel('Time-step')
-    plt.ylabel('Moment')
+    plt.ylabel('p-th Moment (p = %s)' %(p))
     plt.legend()
     plt.savefig("plots/Moment_u.png")
+    plt.close()
 
     plt.figure(2)
     plt.plot(n_steps_vec, m1_h, label="UFB")
@@ -436,6 +445,7 @@ def calc_moments(N, k, dt, n_steps, H, p):
     plt.plot(n_steps_vec, m_h_exact, "--", label="Exact")
     plt.title('(b)')
     plt.xlabel('Time-step')
-    plt.ylabel('Moment')
+    plt.ylabel('p-th Moment (p = %s)' %(p))
     plt.legend()
     plt.savefig("plots/Moment_h.png")
+    plt.close()
