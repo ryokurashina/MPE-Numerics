@@ -6,7 +6,7 @@ Files and descriptions of files are:
 Main file to be run to produce all plots. Plots are saved in the /plots/ directory and all plots will be ignored by git because of the .gitignore file.
 
 * ani.py
-File that produces an animation of the SFB code to show the strange oscillatory behaviour of the scheme.
+File that produces an animation of the SFB code to show the strange oscillatory behaviour of the scheme (details will be in final report).
 
 * analyse.py 
 File that contains functions for post-processing analysis of data.
